@@ -1,9 +1,10 @@
-// mengimpor dotenv dan menjalankan konfigurasinya
+//? import dotenv dan menjalankan konfigurasinya .env
 require('dotenv').config();
 
 const Hapi = require('@hapi/hapi');
 const notes = require('./api/notes');
-const NotesService = require('./services/inMemory/NotesService');
+// const NotesService = require('./services/inMemory/NotesService'); //? service from api
+const NotesService = require('./services/postgres/NotesService'); //? service from postgres db
 const NotesValidator = require('./validator/notes');
 
 const init = async () => {
