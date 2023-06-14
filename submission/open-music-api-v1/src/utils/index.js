@@ -1,5 +1,8 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable key-spacing */
 /* eslint-disable camelcase */
+// eslint-disable-next-line linebreak-style
+
 const mapDBToModel = ({
   id,
   title,
@@ -35,8 +38,8 @@ const mapDBToPlaylistSong = (playlistData, songData) => ({
 });
 
 const mapDBToPlalistActivity = (playlistId, activities) => ({
-  playlistId: playlistId,
-  activities: activities,
+  playlistId,
+  activities,
 });
 
 module.exports = {

@@ -13,8 +13,9 @@
   "author": "ogisetiawan",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^7.21.0",
+    "eslint": "^8.42.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.7"
   },
