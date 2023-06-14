@@ -6,7 +6,6 @@ const notes = require('./api/notes');
 // const NotesService = require('./services/inMemory/NotesService'); //? service from api
 const NotesService = require('./services/postgres/NotesService'); //? service from postgres db
 const NotesValidator = require('./validator/notes');
-
 const init = async () => {
   const notesService = new NotesService();
 
