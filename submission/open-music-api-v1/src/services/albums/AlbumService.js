@@ -11,17 +11,16 @@ class AlbumService {
   async addAlbum({ name, year }) {
     const id = `album-${nanoid(16)}`;
     const createdAt = new Date().toISOString();
-    const updatedAt = createdAt;
 
     const query = {
       text: 'INSERT INTO albums VALUES($1, $2, $3, $4, $5) RETURNING id',
-      values: [id, name, year, createdAt, updatedAt],
+      values: [id, name, year, createdAt],
     };
 
     const result = await this._pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new InvariantError('data album tidak dapat ditambahkan');
+      throw new InvariantError('Album cannot added!');
     }
     return result.rows[0].id;
   }
@@ -35,7 +34,7 @@ class AlbumService {
     const resultAlbum = await this._pool.query(queryAlbum);
 
     if (!resultAlbum.rows.length) {
-      throw new NotFoundError('Album tidak ditemukan');
+      throw new NotFoundError('Album not found!');
     }
 
     const querySong = {
@@ -59,7 +58,7 @@ class AlbumService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError('Gagal memperbaharui album. Id tidak ditemukan');
+      throw new NotFoundError('Failed to update album. ID not found');
     }
   }
 
@@ -71,8 +70,8 @@ class AlbumService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
-      throw new NotFoundError('Album gagal dihapus. Id tidak ditemukan');
+    if (!result.rowCount) {
+      throw new NotFoundError('Album failed to delete. ID not found');
     }
   }
 }

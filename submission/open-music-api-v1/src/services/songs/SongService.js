@@ -34,7 +34,7 @@ class SongService {
     const { rows } = await this._pool.query(query);
 
     if (!rows[0].id) {
-      throw new InvariantError('data songs tidak dapat ditambahkan');
+      throw new InvariantError('Song cannot added!');
     }
     return rows[0].id;
   }
@@ -89,10 +89,11 @@ class SongService {
     const { rows, rowCount } = await this._pool.query(query);
 
     if (!rowCount) {
-      throw new NotFoundError('Song tidak ditemukan');
+      throw new NotFoundError('Songs not found');
     }
 
-    return rows.map(mapDBToModel)[0];
+    // return rows.map(mapDBToModel)[0];
+    return mapDBToModel(rows[0]);
   }
 
   async editSongById(id, {
@@ -108,7 +109,7 @@ class SongService {
     const { rowCount } = await this._pool.query(query);
 
     if (!rowCount) {
-      throw new NotFoundError('Gagal memperbaharui songs. Id tidak ditemukan');
+      throw new NotFoundError('Song failed to update. ID not found');
     }
   }
 
@@ -121,7 +122,7 @@ class SongService {
     const { rowCount } = await this._pool.query(query);
 
     if (!rowCount) {
-      throw new NotFoundError('Song gagal dihapus. Id tidak ditemukan');
+      throw new NotFoundError('Song failed to delete. ID not found');
     }
   }
 }
