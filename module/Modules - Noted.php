@@ -17,3 +17,5 @@
 //? Client-connection; digunakan untuk applikasi yang jrg akses database
 //? pool-connection; untuk aplikasi yang sering gunakan database
 //? node-pg-migrate; melakukan operasi database menggunakan javascript;
+//~ Authentication and Authorization
+//? lebih baik membuat sebuah sekenario testing sebelum ngoding ( TDD), e.g flow dari apps
