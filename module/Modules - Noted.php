@@ -48,3 +48,5 @@
 //? 6. client dapat access data
 //? 7. get access token baru dgn lampirkan refresh token ( agar tidak login2 lg)
 //! run cmd: node -> require('crypto').randomBytes(64).toString('hex'); untuk get signature
+//@ Authorization
+//? proses validasi setiap pengguna berhak untuk mengakses resource
