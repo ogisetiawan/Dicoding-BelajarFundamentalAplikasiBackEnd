@@ -18,7 +18,7 @@
 //? pool-connection; untuk aplikasi yang sering gunakan database
 //? node-pg-migrate; melakukan operasi database menggunakan javascript;
 //@ Authentication
-//? lebih baik membuat sebuah sekenario testing sebelum ngoding ( TDD), e.g flow dari apps
+//? prosess validasi untuk identifikasi dalam sebuah aplikasi
 //~ Scema Authentication:
 //? Basic Authentication; password yg di encode base64 string, kurang baik, tp akan lbh baik jka pakai https protocol karena stiap post akan di encrypt
 //? API Key; key rahasia yang dilampikan pada custom header, tp jika sudah tau keynya mereka bsa dpt authentication
@@ -50,3 +50,20 @@
 //! run cmd: node -> require('crypto').randomBytes(64).toString('hex'); untuk get signature
 //@ Authorization
 //? proses validasi setiap pengguna berhak untuk mengakses resource
+//@ Normalisasi Database
+//? proses pembentukan skema db untuk keektivitasan data dan performa ( mengurangi redundancy)
+//? Redundancy; kejadian di mana data yang sama disimpan di lebih dari 2 tempat ( di table a iya dan table b juga atau column dgn sparator comma)
+//~ Aturan Normalisasi Database
+//# 1NF (First Normal Form): Setiap kolom tidak boleh memiliki nilai lebih dari satu.
+//? tidak boleh ada sparated dlm satu kolom
+//# 2NF (Second Normal Form): Semua kolom yang bukan merupakan suatu key (non-attributed key) harus bergantung secara penuh dengan satu primary key.
+//? dipisah menjadi table lain, untuk digabungkan dgn PK
+//? jika many-to-many lebih baik dipisahkan menjadi table junction (pivot), set constraint prakteknya foreign key
+//# 3NF (Third Normal Form): Tidak boleh ada kolom yang transitive functional dependencies
+//? misal dlm satu table ada nama_jbtn -> gaji, harus dipecah menjadi id_jabatan -> nama_jbtn -> gaji
+//~ Jenis-Jenis Join Tabel
+//? INNER JOIN : Mengembalikan nilai yang cocok (matching) dari kedua tabel.
+//? LEFT (OUTER) JOIN : Mengembalikan semua data dari tabel kiri, dan data yang cocok (matching) dari tabel kanan
+//? RIGHT (OUTER) JOIN : Mengembalikan semua data dari tabel kanan, dan data yang cocok dari tabel kiri.
+//? FULL (OUTER) JOIN : Mengembalikan semua data yang cocok baik dari tabel kiri maupun tabel kanan
+//# Foreign Key; merefrensikan suatu kolom pada tble tertentu ke dalam table lain (tidak boleh bernilai selain dari refrensi kolom atau kosong)
