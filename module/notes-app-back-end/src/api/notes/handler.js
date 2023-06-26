@@ -75,7 +75,7 @@ class NotesHandler {
       const { id } = request.params; //? param from client
       const { id: credentialId } = request.auth.credentials;
 
-      await this._service.verifyNoteOwner(id, credentialId); //? get notes from owner
+      await this._service.verifyNoteAccess(id, credentialId); //? get notes from owner
       const note = await this._service.getNoteById(id);
       return {
         status: "success",
@@ -110,7 +110,7 @@ class NotesHandler {
       const { id } = request.params; //? id_note
       const { id: credentialId } = request.auth.credentials; //? id_owner
 
-      await this._service.verifyNoteOwner(id, credentialId); //? cek note by id_owner
+      await this._service.verifyNoteAccess(id, credentialId); //? cek note by id_owner
       await this._service.editNoteById(id, request.payload); //? cek data by id_note
 
       return {
