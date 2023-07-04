@@ -1,118 +1,56 @@
 const ClientError = require('../../exceptions/ClientError');
+const autoBind = require('auto-bind');
 
 class UsersHandler {
   constructor(service, validator) {
     this._service = service;
     this._validator = validator;
 
-    this.postUserHandler = this.postUserHandler.bind(this); //? binding function
-    this.getUserByIdHandler = this.getUserByIdHandler.bind(this);
-    this.getUsersByUsernameHandler = this.getUsersByUsernameHandler.bind(this);
+    autoBind(this); //? mem-bind nilai this untuk seluruh method sekaligus
   }
 
   async postUserHandler(request, h) {
-    try {
-      this._validator.validateUserPayload(request.payload); //? check validation by payload
-      const { username, password, fullname } = request.payload; //? property object
+    this._validator.validateUserPayload(request.payload); //? check validation by payload
+    const { username, password, fullname } = request.payload; //? property object
 
-      const userId = await this._service.addUser({
-        username,
-        password,
-        fullname,
-      });
+    const userId = await this._service.addUser({
+      username,
+      password,
+      fullname,
+    });
 
-      const response = h.response({
-        status: "success",
-        message: "User berhasil ditambahkan",
-        data: {
-          userId,
-        },
-      });
-      response.code(201);
-      return response;
-    } catch (error) {
-      if (error instanceof ClientError) {
-        //? call custom error
-        const response = h.response({
-          status: "fail",
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      //? Server ERROR!
-      const response = h.response({
-        status: "error",
-        message: "Maaf, terjadi kegagalan pada server kami.",
-      });
-      response.code(500);
-      console.error(error);
-      return response;
-    }
+    const response = h.response({
+      status: "success",
+      message: "User berhasil ditambahkan",
+      data: {
+        userId,
+      },
+    });
+    response.code(201);
+    return response;
   }
 
   async getUserByIdHandler(request, h) {
-    try {
-      const { id } = request.params;
-      const user = await this._service.getUserById(id); //? get user id by service
+    const { id } = request.params;
+    const user = await this._service.getUserById(id); //? get user id by service
 
-      return {
-        status: 'success',
-        data: {
-          user,
-        },
-      };
-    } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: "fail",
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // server ERROR!
-      const response = h.response({
-        status: "error",
-        message: "Maaf, terjadi kegagalan pada server kami.",
-      });
-      response.code(500);
-      console.error(error);
-      return response;
-    }
+    return {
+      status: 'success',
+      data: {
+        user,
+      },
+    };
   }
 
   async getUsersByUsernameHandler(request, h) {
-    try {
-      const { username = '' } = request.query;
-      const users = await this._service.getUsersByUsername(username);
-      return {
-        status: 'success',
-        data: {
-          users,
-        },
-      };
-    } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
- 
-      // Server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
-    }
+    const { username = '' } = request.query;
+    const users = await this._service.getUsersByUsername(username);
+    return {
+      status: 'success',
+      data: {
+        users,
+      },
+    };
   }
 }
 module.exports = UsersHandler;
