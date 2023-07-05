@@ -2,32 +2,38 @@
 require('dotenv').config();
 
 const Hapi = require('@hapi/hapi');
+const Jwt = require('@hapi/jwt');
 
 // @ Album Service
 const albums = require('./api/albums');
-const AlbumService = require('./services/albums/AlbumService');
-const { AlbumValidator } = require('./validator/albums');
+const AlbumService = require('./services/postgres/AlbumService');
+const AlbumValidator = require('./validator/albums');
 
 // @ Song Service
 const songs = require('./api/songs');
-const SongService = require('./services/songs/SongService');
-const { SongValidator } = require('./validator/songs');
+const SongService = require('./services/postgres/SongService');
+const SongValidator = require('./validator/songs');
 
 // @ Exceptions
 const ClientError = require('./exceptions/ClientError');
 
 //@ User Service
 const users = require("./api/users");
-const UsersService = require("./services/users/UsersService");
+const UsersService = require("./services/postgres/UsersService");
 const UsersValidator = require("./validator/users");
+
+//@ Authentications Service
+const authentications = require("./api/authentications");
+const AuthenticationsService = require("./services/postgres/AuthenticationsService");
+const TokenManager = require("./tokenize/TokenManager");
+const AuthenticationsValidator = require("./validator/authentications");
 
 const init = async () => {
   // ? initPlugin
   const albumService = new AlbumService();
-  const albumValidator = new AlbumValidator();
   const songService = new SongService();
-  const songValidator = new SongValidator();
   const usersService = new UsersService();
+  const authenticationsService = new AuthenticationsService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -39,20 +45,44 @@ const init = async () => {
     },
   });
 
+   //? regist plugin external
+   await server.register([
+    {
+      plugin: Jwt,
+    },
+  ]);
+
+  //? mendefinisikan strategy autentikasi jwt
+  server.auth.strategy("openmusic_jwt", "jwt", {
+    keys: process.env.ACCESS_TOKEN_KEY, //? merupakan key atau kunci dari token JWT-ny
+    verify: {
+      aud: false, //? nilai audience dari token, false aud tidak akan diverifikasi.
+      iss: false, //? nilai issuer dari token
+      sub: false, //? nilai subject dari token
+      maxAgeSec: process.env.ACCESS_TOKEN_AGE, //? nilai number yang menentukan umur kedaluwarsa dari token.
+    },
+    validate: (artifacts) => ({
+      isValid: true,
+      credentials: {
+        id: artifacts.decoded.payload.id, //? id_user yang terautentifikasi
+      },
+    }),
+  });
+
   // ? regist plugin
   await server.register([
     {
       plugin: albums,
       options: {
         service: albumService,
-        validator: albumValidator,
+        validator: AlbumValidator,
       },
     },
     {
       plugin: songs,
       options: {
         service: songService,
-        validator: songValidator,
+        validator: SongValidator,
       },
     },
     {
@@ -62,7 +92,17 @@ const init = async () => {
         validator: UsersValidator,
       },
     },
+    {
+      plugin: authentications,
+      options: {
+        authenticationsService,
+        usersService,
+        tokenManager: TokenManager,
+        validator: AuthenticationsValidator,
+      },
+    },
   ]);
+
 
   // ? boilerplate code
   server.ext('onPreResponse', (request, h) => {

@@ -1,4 +1,3 @@
-// eslint-disable-next-line linebreak-style
 const routes = (handler) => [
   {
     method: 'POST',

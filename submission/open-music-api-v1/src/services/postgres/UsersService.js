@@ -3,7 +3,7 @@ const { Pool } = require("pg");
 const bcrypt = require("bcrypt"); //? hasing pw
 const InvariantError = require("../../exceptions/InvariantError");
 const NotFoundError = require("../../exceptions/NotFoundError");
-// const AuthenticationError = require("../../exceptions/AuthenticationError");
+const AuthenticationError = require("../../exceptions/AuthenticationError");
 
 class UsersService {
   constructor() {
