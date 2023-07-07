@@ -53,7 +53,7 @@ class UsersService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError("User tidak ditemukan");
+      throw new NotFoundError("User not found!");
     }
 
     return result.rows[0];
@@ -68,14 +68,14 @@ class UsersService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new AuthenticationError("Kredensial yang Anda berikan salah");
+      throw new AuthenticationError("The credentials you provided are incorrect");
     }
 
     const { id, password: hashedPassword } = result.rows[0]; //? tampung ke variable hashedpass
     const match = await bcrypt.compare(password, hashedPassword); //? cek password and hashed password
 
     if (!match) {
-      throw new AuthenticationError("Kredensial yang Anda berikan salah");
+      throw new AuthenticationError("The credentials you provided are incorrect");
     }
     return id;
   }

@@ -18,15 +18,27 @@ const SongValidator = require('./validator/songs');
 const ClientError = require('./exceptions/ClientError');
 
 //@ User Service
-const users = require("./api/users");
-const UsersService = require("./services/postgres/UsersService");
-const UsersValidator = require("./validator/users");
+const users = require('./api/users');
+const UsersService = require('./services/postgres/UsersService');
+const UsersValidator = require('./validator/users');
 
 //@ Authentications Service
-const authentications = require("./api/authentications");
-const AuthenticationsService = require("./services/postgres/AuthenticationsService");
-const TokenManager = require("./tokenize/TokenManager");
-const AuthenticationsValidator = require("./validator/authentications");
+const authentications = require('./api/authentications');
+const AuthenticationsService = require('./services/postgres/AuthenticationsService');
+const TokenManager = require('./tokenize/TokenManager');
+const AuthenticationsValidator = require('./validator/authentications');
+
+//@ Playlists Service
+const playlists = require('./api/playlists');
+const PlaylistsService = require('./services/postgres/PlaylistsService');
+const PlaylistsSongsService = require('./services/postgres/PlaylistsSongsService');
+const PlaylistsSongsActivitiesService = require('./services/postgres/PlaylistsSongsActivitiesService');
+const playlistsValidator = require('./validator/playlists');
+
+//@ Collaborations Service
+const collaborations = require('./api/collaborations');
+const CollaborationsService = require('./services/postgres/CollaborationsService');
+const CollaborationsValidator = require('./validator/collaborations');
 
 const init = async () => {
   // ? initPlugin
@@ -34,6 +46,10 @@ const init = async () => {
   const songService = new SongService();
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
+  const collaborationsService = new CollaborationsService();
+  const playlistsService = new PlaylistsService(collaborationsService);
+  const playlistsSongsService = new PlaylistsSongsService();
+  const playlistsSongsActivitiesService = new PlaylistsSongsActivitiesService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -101,6 +117,23 @@ const init = async () => {
         validator: AuthenticationsValidator,
       },
     },
+    {
+      plugin: playlists,
+      options: {
+          PlaylistsService: playlistsService,
+          PlaylistsSongsService: playlistsSongsService,
+          PlaylistsSongsActivitiesService: playlistsSongsActivitiesService,
+          PlaylistsValidator: playlistsValidator,
+      },
+  },
+  {
+      plugin: collaborations,
+      options: {
+          CollaborationsService: collaborationsService,
+          PlaylistsService: playlistsService,
+          CollaborationsValidator,
+      },
+  },
   ]);
 
 

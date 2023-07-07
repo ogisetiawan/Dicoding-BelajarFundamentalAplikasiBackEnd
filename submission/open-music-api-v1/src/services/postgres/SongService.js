@@ -92,7 +92,6 @@ class SongService {
       throw new NotFoundError('Songs not found');
     }
 
-    // return rows.map(mapDBToModel)[0];
     return mapDBToModel(rows[0]);
   }
 

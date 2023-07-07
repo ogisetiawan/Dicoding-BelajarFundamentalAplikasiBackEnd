@@ -3,15 +3,7 @@
 /* eslint-disable camelcase */
 // eslint-disable-next-line linebreak-style
 
-const mapDBToModel = ({
-  id,
-  title,
-  year,
-  performer,
-  genre,
-  duration,
-  album_id,
-}) => ({
+const mapDBToModel = ({ id, title, year, performer, genre, duration, album_id }) => ({
   id,
   title,
   year,
@@ -42,9 +34,4 @@ const mapDBToPlalistActivity = (playlistId, activities) => ({
   activities,
 });
 
-module.exports = {
-  mapDBToModel,
-  mapDBToAlbumSongService,
-  mapDBToPlaylistSong,
-  mapDBToPlalistActivity,
-};
+module.exports = { mapDBToModel, mapDBToAlbumSongService, mapDBToPlaylistSong, mapDBToPlalistActivity };
