@@ -67,3 +67,20 @@
 //? RIGHT (OUTER) JOIN : Mengembalikan semua data dari tabel kanan, dan data yang cocok dari tabel kiri.
 //? FULL (OUTER) JOIN : Mengembalikan semua data yang cocok baik dari tabel kiri maupun tabel kanan
 //# Foreign Key; merefrensikan suatu kolom pada tble tertentu ke dalam table lain (tidak boleh bernilai selain dari refrensi kolom atau kosong)
+//@ Message Broker dengan Amazon MQ
+//? komponen yang memungkinkan aplikasi, sistem, serta service untuk berkomunikasi satu sama lain dan bertukar informasi (asyncronous)
+//? menghilangkan ketergantungan antar komponen dan mengurangi beban server
+//? rabbitMQ adalah aplikasi untuk message broker yang bertugas untuk menerima dan mengirimkan pesan
+//# berbeda dengan API yang hanya bertukar data dengan syncronous
+//# idel untuk ecommerce karena memiliki banyak requst dalam waktu yg berdekatan
+//~ Pola Distrubusi Message Broker
+//? Point-to-point messaging: pola distribusi yang digunakan dalam message queue dengan hubungan one-to-one antara pengirim dan penerima pesan
+//? Publish/subscribe messaging; pola distribusi yang dikirimkan ke suatu topic (broadcast), dan (brodcast) akan memgorim pesan yang membutuhkan (sub)
+//~ Rabbit MQ
+//? yg mendukung protokol standart (AMPQP, STOMP, MQTT, HTTP, dan WebSocket)
+//# rabbitmq-plugins.bat enable rabbitmq_management ( activated plugin )
+//# rabbitmq-server ( activated server )
+//# http://localhost:15672/ (guest;guest)
+//? Producing: Aktivitas dalam mengirimkan messages. Pihak atau program yang mengirimkan messages disebut dengan producer.
+//? Queue: Sebuah kotak pos yang berada di RabbitMQ server dan dapat menampung banyak messages. Meskipun dapat menampung banyak messages, queue tetap memiliki batas, terlebih bila messages mengandung buffer yang besar.
+//? Consuming: Aktivitas dalam menerima messages. Pihak atau program yang menerima messages disebut dengan consumer. Consumer selalu memantau queue yang ada di server RabbitMQ selama ia tersedia atau dapat menerima pesan. Berikut adalah gambar dari dasar alur kerja message broker menggunakan RabbitMQ.
