@@ -2,3 +2,4 @@ module/open-music-api
 module/clone
 open-music-api-v1.zip
 **node_modules
+module/notes-app-back-end/src/api/uploads/file

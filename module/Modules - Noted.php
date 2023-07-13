@@ -84,3 +84,5 @@
 //? Producing: Aktivitas dalam mengirimkan messages. Pihak atau program yang mengirimkan messages disebut dengan producer.
 //? Queue: Sebuah kotak pos yang berada di RabbitMQ server dan dapat menampung banyak messages. Meskipun dapat menampung banyak messages, queue tetap memiliki batas, terlebih bila messages mengandung buffer yang besar.
 //? Consuming: Aktivitas dalam menerima messages. Pihak atau program yang menerima messages disebut dengan consumer. Consumer selalu memantau queue yang ada di server RabbitMQ selama ia tersedia atau dapat menerima pesan. Berikut adalah gambar dari dasar alur kerja message broker menggunakan RabbitMQ.
+//~ Amazon MQ
+//? layanan message broker terkelola untuk Apache ActiveMQ dan RabbitMQ
