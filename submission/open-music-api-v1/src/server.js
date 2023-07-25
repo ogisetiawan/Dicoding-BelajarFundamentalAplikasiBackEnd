@@ -40,6 +40,12 @@ const collaborations = require('./api/collaborations');
 const CollaborationsService = require('./services/postgres/CollaborationsService');
 const CollaborationsValidator = require('./validator/collaborations');
 
+
+//@ Exports
+const _exports = require('./api/exports'); //? _export obj global
+const ProducerService = require('./services/rabbitmq/ProducerService');
+const ExportsValidator = require('./validator/exports');
+
 const init = async () => {
   // ? initPlugin
   const albumService = new AlbumService();
@@ -61,8 +67,8 @@ const init = async () => {
     },
   });
 
-   //? regist plugin external
-   await server.register([
+  //? regist plugin external
+  await server.register([
     {
       plugin: Jwt,
     },
@@ -120,20 +126,28 @@ const init = async () => {
     {
       plugin: playlists,
       options: {
-          PlaylistsService: playlistsService,
-          PlaylistsSongsService: playlistsSongsService,
-          PlaylistsSongsActivitiesService: playlistsSongsActivitiesService,
-          PlaylistsValidator: playlistsValidator,
+        PlaylistsService: playlistsService,
+        PlaylistsSongsService: playlistsSongsService,
+        PlaylistsSongsActivitiesService: playlistsSongsActivitiesService,
+        PlaylistsValidator: playlistsValidator,
       },
-  },
-  {
+    },
+    {
       plugin: collaborations,
       options: {
-          CollaborationsService: collaborationsService,
-          PlaylistsService: playlistsService,
-          CollaborationsValidator,
+        CollaborationsService: collaborationsService,
+        PlaylistsService: playlistsService,
+        CollaborationsValidator,
       },
-  },
+    },
+    {
+      plugin: _exports,
+      options: {
+        ProducerService,
+        PlaylistsService: playlistsService,
+        ExportsValidator,
+      },
+    },
   ]);
 
 
