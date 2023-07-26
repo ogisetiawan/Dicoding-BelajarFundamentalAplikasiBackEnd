@@ -13,11 +13,18 @@ const mapDBToModel = ({ id, title, year, performer, genre, duration, album_id })
   albumId: album_id,
 });
 
-const mapDBToAlbumSongService = ({ id, name, year }, song) => ({
+//? this for result get/album/id version 2
+// const mapDBToAlbumSongService = ({ id, name, year }, song) => ({
+//   id,
+//   name,
+//   year,
+//   songs: song,
+// });
+const mapDBToAlbumSongService = ({ id, name, year, cover }) => ({
   id,
   name,
   year,
-  songs: song,
+  coverUrl: cover,
 });
 
 const mapDBToPlaylistSong = (playlistData, songData) => ({

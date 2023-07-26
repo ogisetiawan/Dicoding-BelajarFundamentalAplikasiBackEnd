@@ -25,9 +25,9 @@ class AlbumService {
     return result.rows[0].id;
   }
 
-  async getAlbumById(id) {
+  async getAlbumById(id) { //? get from api handler
     const queryAlbum = {
-      text: 'SELECT id, name, year FROM albums WHERE id = $1',
+      text: 'SELECT id, name, year, cover FROM albums WHERE id = $1',
       values: [id],
     };
 
@@ -35,6 +35,11 @@ class AlbumService {
 
     if (!resultAlbum.rows.length) {
       throw new NotFoundError('Album not found!');
+    }
+
+    //? check coverAlbum
+    if (resultAlbum.rows[0].cover !== null) {
+      resultAlbum.rows[0].cover = `http://${process.env.HOST}:${process.env.PORT}/albums/cover/${resultAlbum.rows[0].cover}`;
     }
 
     const querySong = {
@@ -59,6 +64,18 @@ class AlbumService {
 
     if (!result.rows.length) {
       throw new NotFoundError('Failed to update album. ID not found');
+    }
+  }
+
+  async editCoverAlbumById(id, coverAlbum) {
+    const query = {
+      text: 'UPDATE albums SET cover = $1 WHERE id = $2 RETURNING id',
+      values: [coverAlbum, id],
+    };
+    const { rowCount } = await this._pool.query(query);
+
+    if (!rowCount) {
+      throw new NotFoundError('Failed update album. Id not found.');
     }
   }
 
