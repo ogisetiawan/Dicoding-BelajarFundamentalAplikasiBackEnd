@@ -1,3 +1,4 @@
+const path = require('path');
 const routes = (handler) => [
   {
     method: 'POST',
@@ -18,6 +19,15 @@ const routes = (handler) => [
     method: 'DELETE',
     path: '/albums/{id}',
     handler: (request, h) => handler.deleteAlbumHandler(request, h),
+  },
+  {
+    method: 'GET',
+    path: '/albums/cover/{param*}',
+    handler: {
+      directory: {
+        path: path.join(__dirname, '/../uploads/file/images'),
+      },
+    },
   },
 ];
 
