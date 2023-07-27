@@ -52,9 +52,12 @@ const uploads = require('./api/uploads');
 const { StorageService } = require('./services/storage/storageService');
 const { UploadsValidator } = require('./validator/uploads');
 
+const CacheService = require('./services/redis/cacheService');
+
 const init = async () => {
   // ? initPlugin
-  const albumService = new AlbumService();
+  const cacheService = new CacheService();
+  const albumService = new AlbumService(cacheService);
   const songService = new SongService();
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
@@ -106,7 +109,7 @@ const init = async () => {
     {
       plugin: albums,
       options: {
-        service: albumService,
+        service: albumService, //? call handler
         validator: AlbumValidator,
       },
     },
