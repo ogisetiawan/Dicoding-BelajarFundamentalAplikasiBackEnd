@@ -23,7 +23,7 @@ class AlbumHandler {
 
   async getAlbumByIdHandler(request, h) {
     const { id } = request.params;
-    const album = await this._service.getAlbumById(id); //?call service
+    const album = await this._service.getAlbumById(id); // ?call service
     const resultMappingAlbum = mapDBToAlbumSongService(album.album, album.songs);
 
     const response = h.response({
@@ -68,8 +68,8 @@ class AlbumHandler {
     await this._service.likeAlbum(albumId, credentialId);
 
     const response = h.response({
-      status: "success",
-      message: "Album berhasil disukai",
+      status: 'success',
+      message: 'Album berhasil disukai',
     });
     response.code(201);
     return response;
@@ -82,8 +82,8 @@ class AlbumHandler {
     await this._service.dislikeAlbum(albumId, credentialId);
 
     return {
-      status: "success",
-      message: "Suka terhadap album berhasil dihapus",
+      status: 'success',
+      message: 'Suka terhadap album berhasil dihapus',
     };
   }
 
@@ -94,12 +94,12 @@ class AlbumHandler {
     const likes = Number(res[0]);
 
     const response = h.response({
-      status: "success",
+      status: 'success',
       data: {
         likes,
       },
     });
-    if (res[1]) response.header("X-Data-Source", "cache");
+    if (res[1]) response.header('X-Data-Source', 'cache');
 
     return response;
   }

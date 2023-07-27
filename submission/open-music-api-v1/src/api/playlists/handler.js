@@ -1,8 +1,7 @@
-const autoBind = require('auto-bind'); //? use autobind
+const autoBind = require('auto-bind'); // ? use autobind
 
 class PlaylistsHandler {
-    constructor( PlaylistsService, PlaylistsSongsService, PlaylistsSongsActivitiesService, PlaylistsValidator,)
-    {
+    constructor(PlaylistsService, PlaylistsSongsService, PlaylistsSongsActivitiesService, PlaylistsValidator) {
         this._playlistsService = PlaylistsService;
         this._playlistsSongsService = PlaylistsSongsService;
         this._playlistsSongsActivitiesService = PlaylistsSongsActivitiesService;

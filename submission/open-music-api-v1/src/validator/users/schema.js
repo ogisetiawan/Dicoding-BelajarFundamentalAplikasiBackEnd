@@ -1,4 +1,4 @@
-//@ Schema data
+// @ Schema data
 const Joi = require('joi');
  
 const UserPayloadSchema = Joi.object({

@@ -1,30 +1,23 @@
-/* eslint-disable linebreak-style */
-/* eslint-disable key-spacing */
-/* eslint-disable camelcase */
-// eslint-disable-next-line linebreak-style
-
-const mapDBToModel = ({ id, title, year, performer, genre, duration, album_id }) => ({
+const mapDBToModel = ({
+  id, title, year, performer, genre, duration, albumID,
+}) => ({
   id,
   title,
   year,
   performer,
   genre,
   duration,
-  albumId: album_id,
+  albumId: albumID,
 });
 
-//? this for result get/album/id version 2
-// const mapDBToAlbumSongService = ({ id, name, year }, song) => ({
-//   id,
-//   name,
-//   year,
-//   songs: song,
-// });
-const mapDBToAlbumSongService = ({ id, name, year, cover }) => ({
+const mapDBToAlbumSongService = ({
+  id, name, year, cover,
+}, song) => ({
   id,
   name,
   year,
   coverUrl: cover,
+  songs: song,
 });
 
 const mapDBToPlaylistSong = (playlistData, songData) => ({
@@ -41,4 +34,6 @@ const mapDBToPlalistActivity = (playlistId, activities) => ({
   activities,
 });
 
-module.exports = { mapDBToModel, mapDBToAlbumSongService, mapDBToPlaylistSong, mapDBToPlalistActivity };
+module.exports = {
+  mapDBToModel, mapDBToAlbumSongService, mapDBToPlaylistSong, mapDBToPlalistActivity,
+};

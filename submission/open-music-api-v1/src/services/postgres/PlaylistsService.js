@@ -1,8 +1,8 @@
-const { Pool } = require("pg");
-const { nanoid } = require("nanoid");
-const InvariantError = require("../../exceptions/InvariantError");
-const AuthorizationError = require("../../exceptions/AuthorizationError");
-const NotFoundError = require("../../exceptions/NotFoundError");
+const { Pool } = require('pg');
+const { nanoid } = require('nanoid');
+const InvariantError = require('../../exceptions/InvariantError');
+const AuthorizationError = require('../../exceptions/AuthorizationError');
+const NotFoundError = require('../../exceptions/NotFoundError');
 
 class PlaylistsService {
   constructor(collaborationsService) {
@@ -12,19 +12,19 @@ class PlaylistsService {
 
   async verifyPlaylistsOwner(id, owner) {
     const query = {
-      text: "SELECT owner FROM playlists WHERE id = $1",
+      text: 'SELECT owner FROM playlists WHERE id = $1',
       values: [id],
     };
 
     const result = await this._pool.query(query);
 
     if (!result.rowCount) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError('User not found');
     }
 
     if (result.rows[0].owner !== owner) {
       throw new AuthorizationError(
-        "You do not have access rights to this playlist!"
+        'You do not have access rights to this playlist!',
       );
     }
   }
@@ -40,7 +40,7 @@ class PlaylistsService {
       try {
         await this._collaborationsService.verifyCollaborator(
           playlistId,
-          userId
+          userId,
         );
       } catch {
         throw error;
@@ -52,14 +52,14 @@ class PlaylistsService {
     const id = `playlist-${nanoid(16)}`;
 
     const query = {
-      text: "INSERT INTO playlists VALUES ($1, $2, $3) RETURNING id",
+      text: 'INSERT INTO playlists VALUES ($1, $2, $3) RETURNING id',
       values: [id, name, owner],
     };
 
     const result = await this._pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new InvariantError("Playlist failed to add.");
+      throw new InvariantError('Playlist failed to add.');
     }
 
     return result.rows[0].id;
@@ -83,14 +83,14 @@ class PlaylistsService {
 
   async deletePlaylistsById(id) {
     const query = {
-      text: "DELETE FROM playlists WHERE id = $1 RETURNING id",
+      text: 'DELETE FROM playlists WHERE id = $1 RETURNING id',
       values: [id],
     };
 
     const result = await this._pool.query(query);
 
     if (!result.rowCount) {
-      throw new NotFoundError("Playlist failed to delete. ID not found");
+      throw new NotFoundError('Playlist failed to delete. ID not found');
     }
   }
 }

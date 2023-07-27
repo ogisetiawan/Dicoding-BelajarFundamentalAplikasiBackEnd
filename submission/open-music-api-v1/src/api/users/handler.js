@@ -5,12 +5,12 @@ class UsersHandler {
     this._service = service;
     this._validator = validator;
 
-    autoBind(this); //? mem-bind nilai this untuk seluruh method sekaligus
+    autoBind(this); // ? mem-bind nilai this untuk seluruh method sekaligus
   }
 
   async postUserHandler(request, h) {
-    this._validator.validateUserPayload(request.payload); //? check validation by payload
-    const { username, password, fullname } = request.payload; //? property object
+    this._validator.validateUserPayload(request.payload); // ? check validation by payload
+    const { username, password, fullname } = request.payload; // ? property object
 
     const userId = await this._service.addUser({
       username,
@@ -19,8 +19,8 @@ class UsersHandler {
     });
 
     const response = h.response({
-      status: "success",
-      message: "User berhasil ditambahkan",
+      status: 'success',
+      message: 'User berhasil ditambahkan',
       data: {
         userId,
       },
@@ -29,9 +29,9 @@ class UsersHandler {
     return response;
   }
 
-  async getUserByIdHandler(request, h) {
+  async getUserByIdHandler(request) {
     const { id } = request.params;
-    const user = await this._service.getUserById(id); //? get user id by service
+    const user = await this._service.getUserById(id); // ? get user id by service
 
     return {
       status: 'success',
@@ -41,7 +41,7 @@ class UsersHandler {
     };
   }
 
-  async getUsersByUsernameHandler(request, h) {
+  async getUsersByUsernameHandler(request) {
     const { username = '' } = request.query;
     const users = await this._service.getUsersByUsername(username);
     return {

@@ -1,4 +1,4 @@
-const autoBind = require('auto-bind'); //? use autobind
+const autoBind = require('auto-bind'); // ? use autobind
 
 class UploadsHandler {
   constructor(service, AlbumService, validator) {
