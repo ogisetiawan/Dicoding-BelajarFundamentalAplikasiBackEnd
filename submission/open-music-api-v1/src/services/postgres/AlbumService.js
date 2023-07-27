@@ -131,12 +131,12 @@ class AlbumService {
       throw new NotFoundError('Album gagal dihapus. Id tidak ditemukan');
     }
 
-    await this._cacheService.delete(`notelikes:${albumId}`);
+    await this._cacheService.delete(`likes:${albumId}`);
   }
 
   async getAlbumLikes(id) {
     try {
-      const result = await this._cacheService.get(`notelikes:${id}`);
+      const result = await this._cacheService.get(`likes:${id}`);
       return [JSON.parse(result), true];
     } catch (error) {
       const query = {
@@ -145,7 +145,7 @@ class AlbumService {
       };
       const likes = (await this._pool.query(query)).rows[0].count;
       await this._cacheService.set(
-        `notelikes:${id}`,
+        `likes:${id}`,
         JSON.stringify(likes),
         1800,
       );
