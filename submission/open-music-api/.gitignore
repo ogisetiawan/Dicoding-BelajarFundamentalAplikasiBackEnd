@@ -1,0 +1,5 @@
+node_modules
+.env
+.prod.env
+open-music-api-v1.zip
+src/api/uploads/file
